@@ -10,7 +10,7 @@ import React from 'react';
  *  - onEdit: (id) => void (optional)
  */
  // PUBLIC_INTERFACE
-export default function ListingCard({ listing, onLike, onUnlike, onEngage, onEdit }) {
+export default function ListingCard({ listing, onLike, onUnlike, onEngage, onEdit, onBuy }) {
   return (
     <div className="listing-card" style={{
       background: 'var(--bg-secondary)',
@@ -57,6 +57,16 @@ export default function ListingCard({ listing, onLike, onUnlike, onEngage, onEdi
         >
           Engage
         </button>
+        {listing.is_paid && typeof onBuy === "function" && (
+          <button
+            className="btn"
+            style={{background: '#f4d35e', marginLeft: 6, color: '#422912', fontWeight: 700 }}
+            onClick={() => onBuy(listing)}
+            title="Buy this Listing"
+          >
+            Buy
+          </button>
+        )}
         {listing.is_publisher && (
           <button
             className="btn"

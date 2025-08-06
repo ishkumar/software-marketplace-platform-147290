@@ -2,7 +2,7 @@ import React from 'react';
 import ListingCard from './ListingCard';
 
 // PUBLIC_INTERFACE
-export default function ListingsGrid({ listings, onLike, onUnlike, onEngage, onEdit }) {
+export default function ListingsGrid({ listings, onLike, onUnlike, onEngage, onEdit, onBuy }) {
   // listings: Array of listing objects
   if (!listings || listings.length === 0) {
     return <div style={{margin: '2rem auto', color: '#AAA'}}>No listings found.</div>;
@@ -24,6 +24,7 @@ export default function ListingsGrid({ listings, onLike, onUnlike, onEngage, onE
           onUnlike={onUnlike}
           onEngage={onEngage}
           onEdit={onEdit}
+          onBuy={onBuy}
         />
       )}
     </div>

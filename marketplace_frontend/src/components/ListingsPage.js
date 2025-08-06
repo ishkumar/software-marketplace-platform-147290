@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import {
   ListingsGrid, ListingForm,
   SearchFilter, MessagePublisherModal,
+  PaymentModal,
 } from "./index";
 import { AuthContext } from "../AuthContext";
 
@@ -27,6 +28,11 @@ export default function ListingsPage() {
   const [msgLoading, setMsgLoading] = useState(false);
   const [msgSuccess, setMsgSuccess] = useState("");
 
+  // Payment modal state
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [listingToBuy, setListingToBuy] = useState(null);
+  const [paymentResult, setPaymentResult] = useState(null);
+
   // Fetch marketplace listings (with filters)
   useEffect(() => {
     let url = "/api/marketplace/?";
@@ -45,7 +51,7 @@ export default function ListingsPage() {
           types: data.types || [],
         });
       });
-  }, [filters, showForm]); // showForm in dep (for update after save)
+  }, [filters, showForm]);
 
   // Handle like/unlike listing
   const handleLike = id => {
@@ -182,6 +188,11 @@ export default function ListingsPage() {
         onUnlike={handleUnlike}
         onEngage={handleEngage}
         onEdit={handleEdit}
+        onBuy={l => {
+          setListingToBuy(l);
+          setPaymentModalOpen(true);
+          setPaymentResult(null);
+        }}
       />
       <MessagePublisherModal
         open={msgModalOpen}
@@ -189,12 +200,27 @@ export default function ListingsPage() {
         onSend={handleSendMsg}
         loading={msgLoading}
       />
+      <PaymentModal
+        open={paymentModalOpen}
+        onClose={() => { setPaymentModalOpen(false); setListingToBuy(null); }}
+        listing={listingToBuy}
+        getAuthHeader={authHeader}
+        onPaymentResult={(result) => setPaymentResult(result)}
+      />
       {msgSuccess && <div style={{
         background:"#f4d35e",
         color:"#2e362a",
         fontWeight: 500,
         margin: "1rem auto", width:"max-content", borderRadius:8, padding: '0.5em 1.5em'
       }}>{msgSuccess}</div>}
+      {paymentResult && paymentResult.status === "error" && 
+        <div style={{
+          background:"#fff0e4", color:"#c0392b", borderRadius:8, margin:"1rem auto 0 auto",
+          fontWeight:500, width:"max-content",padding:'0.6em 1.7em',fontSize:16
+        }}>
+          Payment error: {paymentResult.error}
+        </div>
+      }
     </div>
   );
 }
