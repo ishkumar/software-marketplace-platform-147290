@@ -206,3 +206,88 @@
     font-size: 12px;
   }
 }
+
+/* ==== Marketplace UI ==== */
+
+.listings-grid {
+  margin-top: 2.2rem;
+  margin-bottom: 2.1rem;
+}
+
+.listing-card {
+  transition: box-shadow 0.16s;
+}
+.listing-card:hover {
+  box-shadow: 0 4px 24px rgba(72, 112, 72, 0.15), 0 1px 3px #d5f7ea11;
+  border-color: #a7e9af;
+}
+
+.listing-form input,
+.listing-form textarea,
+.listing-form select {
+  margin-top: 4px;
+  margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  font-size: 1rem;
+  padding: 0.6em 0.8em;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  box-sizing: border-box;
+}
+
+.listing-form label {
+  display: block;
+  margin-bottom: 0.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.listing-form h2 {
+  color: #388e56;
+  font-size: 1.35rem;
+}
+
+.search-filter select,
+.search-filter input[type="text"] {
+  border-radius: 6px;
+  border: 1px solid #cdf5db55;
+  font-size: 1rem;
+  padding: 0.45em 0.7em;
+  margin-right: 4px;
+}
+
+.search-filter button.btn {
+  background: #a7e9af;
+  color: #1a2;
+  font-weight: 600;
+  border: none;
+}
+
+.search-filter button.btn:hover {
+  background: #73dda1;
+  color: #011;
+}
+
+@media (max-width: 700px) {
+  .listings-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .listing-card {
+    max-width: 94vw;
+    min-width: 0;
+    width: 98vw;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.marketplace-main {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+

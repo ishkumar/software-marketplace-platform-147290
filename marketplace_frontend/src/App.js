@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 // Auth UI and context
-import { AuthProvider } from './AuthContext';
+import { AuthProvider, AuthContext } from './AuthContext';
 import SignupForm from './components/SignupForm';
 import LoginForm from './components/LoginForm';
 import SocialLoginButtons from './components/SocialLoginButtons';
 import AuthStatus from './components/AuthStatus';
+import ListingsPage from './components/ListingsPage';
 
 // Simple navigation for auth flows
 function Navigation({ currentPage, setPage }) {
@@ -29,10 +30,46 @@ function Navigation({ currentPage, setPage }) {
   );
 }
 
+function MainContent({ page, setPage, theme }) {
+  const { isAuthenticated } = useContext(AuthContext);
+
+  // Once authenticated, show ListingsPage as main content
+  if (isAuthenticated || page === "marketplace" || page === "profile") {
+    return (
+      <>
+        <ListingsPage />
+        <p>
+          Current theme: <strong>{theme}</strong>
+        </p>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Navigation currentPage={page} setPage={setPage} />
+      {page === "login" ? (
+        <>
+          <LoginForm onLoginSuccess={() => { setPage("marketplace"); }} />
+          <SocialLoginButtons />
+        </>
+      ) : (
+        <>
+          <SignupForm onSignupSuccess={() => { setPage("marketplace"); }} />
+          <SocialLoginButtons />
+        </>
+      )}
+      <p>
+        Current theme: <strong>{theme}</strong>
+      </p>
+    </>
+  );
+}
+
 // PUBLIC_INTERFACE
 function App() {
   const [theme, setTheme] = useState('light');
-  const [page, setPage] = useState('login'); // "login" or "signup"
+  const [page, setPage] = useState('login'); // "login", "signup", "marketplace", or "profile"
   const [redirected, setRedirected] = useState(false);
 
   // Effect to apply theme to document element
@@ -47,6 +84,7 @@ function App() {
     if (params.has('token')) {
       localStorage.setItem('auth_token', params.get('token'));
       setRedirected(true);
+      setPage("marketplace");
       window.history.replaceState({}, document.title, "/");
     }
   }, []);
@@ -69,22 +107,7 @@ function App() {
           </button>
           <img src={logo} className="App-logo" alt="logo" />
           <AuthStatus />
-          {/* Show auth navigation only if not authenticated */}
-          <Navigation currentPage={page} setPage={setPage} />
-          {page === "login" ? (
-            <>
-              <LoginForm onLoginSuccess={() => { setPage("profile"); }} />
-              <SocialLoginButtons />
-            </>
-          ) : (
-            <>
-              <SignupForm onSignupSuccess={() => { setPage("profile"); }} />
-              <SocialLoginButtons />
-            </>
-          )}
-          <p>
-            Current theme: <strong>{theme}</strong>
-          </p>
+          <MainContent page={page} setPage={setPage} theme={theme} />
         </header>
       </div>
     </AuthProvider>
