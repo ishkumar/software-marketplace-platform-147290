@@ -58,6 +58,47 @@
   transition: color 0.3s ease;
 }
 
+/* Header/footer & global nav focus/hover for accessibility */
+.global-header .nav-btn, .global-footer a {
+  outline: none;
+  transition: background 0.16s, box-shadow 0.18s;
+}
+.global-header .nav-btn:focus, 
+.global-header .nav-btn:active {
+  outline: 2px solid #73dda1;
+  outline-offset: 2px;
+  background: #e6faf0;
+  box-shadow: 0 0 2px 3px #a7e9af44;
+}
+.global-header .nav-btn.active,
+.global-header .nav-btn:hover {
+  background: #defaed;
+  color: #389e69;
+}
+.global-footer a:focus,
+.global-footer a:hover {
+  text-decoration: underline;
+  outline: 2px solid #a7e9af;
+  background: #defaed;
+}
+/* Logo focus ring */
+.app-logo:focus {
+  outline: 2px solid #3F6747;
+  outline-offset: 3px;
+}
+
+/* Card/button focus-access */
+.listing-card, .listing-card button.btn {
+  outline: none;
+}
+.listing-card:focus-within {
+  box-shadow: 0 0 0 4px #73dda177;
+}
+.listing-card button.btn:focus {
+  outline: 2px solid #f4d35e;
+  outline-offset: 2px;
+}
+
 /* ----- AUTH UI Styles ----- */
 .auth-container {
   background: var(--bg-secondary);

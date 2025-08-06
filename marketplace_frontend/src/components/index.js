@@ -10,3 +10,5 @@ export { default as MessagePublisherModal } from "./MessagePublisherModal";
 export { default as PaymentModal } from "./PaymentModal";
 export { default as EngagementInbox } from "./EngagementInbox";
 export { default as EngagementMessageView } from "./EngagementMessageView";
+export { default as Header } from "./Header";
+export { default as Footer } from "./Footer";
